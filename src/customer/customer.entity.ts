@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
-import { BaseEntity } from "../config/base.entity";
+import { BaseEntity } from "../shared/entities/base.entity";
 import { PurchaseEntity } from "../purchase/purchase.entity";
 import { UserEntity } from "../user/entities/user.entity";
 // import { PurchaseEntity } from "../../purchase/entitites/purchase.entity";

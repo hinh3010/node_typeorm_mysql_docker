@@ -1,4 +1,4 @@
-import { BaseEntity } from "../../config/base.entity";
+import { BaseEntity } from "../../shared/entities/base.entity";
 import { Entity, Column, OneToOne } from "typeorm";
 import { CustomerEntity } from "../../customer/customer.entity";
 
