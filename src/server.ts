@@ -4,7 +4,7 @@ import morgan from "morgan";
 import "reflect-metadata";
 import { Connection, createConnection } from "typeorm";
 import { ConfigServer } from "./config/config";
-import { UserRouter } from './routers/user.router';
+import { UserRouter } from './user/user.router';
 
 class Server extends ConfigServer {
     public app: express.Application = express();

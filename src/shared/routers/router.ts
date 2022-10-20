@@ -9,7 +9,5 @@ export class BaseRouter<T> {
         this.routes()
     }
 
-    routes() {
-
-    }
+    routes() { }
 }
