@@ -10,6 +10,7 @@ class Server extends ConfigServer {
     public app: express.Application = express();
     private port: number = this.getNumberEnv('PORT');
 
+
     constructor() {
         super()
         this.app.use(express.json());
