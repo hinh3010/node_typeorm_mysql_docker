@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
-import { Connection, ConnectionOptions, createConnection } from "typeorm";
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { DataSource } from "typeorm";
+import { AppDataSource } from "./db";
 
 export abstract class ConfigServer {
 
@@ -28,7 +28,7 @@ export abstract class ConfigServer {
     }
 
     public createPathEnv(path: string): string {
-        const arrEnv: Array<string> = ["env"]; //['hola', 'mundo'] => 'hola.mundo'
+        const arrEnv: Array<string> = ["env"]; //['hello', 'cacbantre'] => 'hello.cacbantre'
 
         if (path.length > 0) {
             const stringToArray = path.split(".");
@@ -40,25 +40,7 @@ export abstract class ConfigServer {
 
 
     // type orm
-    public get typeOrmConfig(): ConnectionOptions {
-        return {
-            type: "mysql",
-            host: this.getEnvironment("DB_HOST"),
-            port: this.getNumberEnv("DB_PORT"),
-            username: this.getEnvironment("DB_USER"),
-            password: this.getEnvironment("DB_PASSWORD"),
-            database: this.getEnvironment("DB_DATABASE"),
-            entities: [__dirname + "/../**/*.entity{.ts,.js}"],
-            migrations: [__dirname + "/../migrations/*{.ts,.js}"],
-            synchronize: true,
-            // migrationsRun: true,
-            logging: false,
-            namingStrategy: new SnakeNamingStrategy(),
-        }
+    get initConnect(): Promise<DataSource> {
+        return AppDataSource.initialize();
     }
-
-    async dbConnect(): Promise<Connection> {
-        return await createConnection(this.typeOrmConfig);
-    }
-
 }

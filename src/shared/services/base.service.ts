@@ -5,13 +5,15 @@ import { BaseEntity } from "../entities/base.entity";
 export class BaseService<T extends BaseEntity> extends ConfigServer {
     public execRepository: Promise<Repository<T>>;
     constructor(private getEntity: EntityTarget<T>) {
+        console.log({ getEntity })
         super();
         this.execRepository = this.initRepository(getEntity);
     }
 
     async initRepository<T extends ObjectLiteral>(e: EntityTarget<T>): Promise<Repository<T>> {
-        // async initRepository<T>(e: EntityTarget<T>): Promise < Repository < T >> {
-        const getConn = await this.dbConnect();
+        const getConn = await this.initConnect;
         return getConn.getRepository(e);
     }
 }
+
+

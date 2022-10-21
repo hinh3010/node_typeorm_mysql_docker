@@ -1,5 +1,11 @@
 import * as dotenv from 'dotenv'
-dotenv.config()
+
+dotenv.config({
+    path:
+        process.env.NODE_ENV !== undefined
+            ? `.${process.env.NODE_ENV.trim()}.env`
+            : ".env",
+});
 
 export const Env = {
     port: Number(process.env.PORT) || 8081,

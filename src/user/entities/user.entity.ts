@@ -1,12 +1,12 @@
-import { BaseEntity } from "../../shared/entities/base.entity";
-import { Entity, Column, OneToOne } from "typeorm";
+import { Column, Entity, OneToOne } from "typeorm";
 import { CustomerEntity } from "../../customer/customer.entity";
+import { BaseEntity } from "../../shared/entities/base.entity";
 
 @Entity({ name: "user" })
 export class UserEntity extends BaseEntity {
 
     @Column()
-    name !: string
+    name!: string
 
     @Column()
     lastName!: string
@@ -14,14 +14,14 @@ export class UserEntity extends BaseEntity {
     @Column()
     email!: string
 
-    @Column()
+    @Column({ select: false })
     password!: string
 
-    @Column({ nullable: true })
-    city !: string
+    @Column()
+    city!: string
 
     @Column()
-    provice !: string
+    province !: string
 
     // quan he 1 - 1 vs table customer
     @OneToOne(() => CustomerEntity, (customer) => customer.user)
