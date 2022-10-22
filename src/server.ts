@@ -5,6 +5,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { CategoryRouter } from "./category/category.router";
 import { ConfigServer } from "./config/config";
+import { CustomerRouter } from "./customer/customer.router";
 import { ProductRouter } from "./product/product.router";
 import { UserRouter } from './user/user.router';
 
@@ -49,7 +50,8 @@ class Server extends ConfigServer {
         return [
             new UserRouter().router,
             new ProductRouter().router,
-            new CategoryRouter().router
+            new CategoryRouter().router,
+            new CustomerRouter().router
         ]
     }
 

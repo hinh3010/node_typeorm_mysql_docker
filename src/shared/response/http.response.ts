@@ -12,16 +12,17 @@ export class HttpResponse {
     Ok(res: Response, data?: any): Response {
         return res.status(HttpStatus.OK).json({
             status: HttpStatus.OK,
-            message: "Success",
+            statusMsg: "Success",
             data: data,
             error: null
         });
     }
 
-    NotFound(res: Response, error?: any): Response {
+    NotFound(res: Response, error = "Not Found"): Response {
+        // NotFound(res: Response, error?: any ): Response {
         return res.status(HttpStatus.NOT_FOUND).json({
             status: HttpStatus.NOT_FOUND,
-            message: "Not Found",
+            statusMsg: "Not Found",
             error: error,
             data: null
         });
@@ -30,7 +31,7 @@ export class HttpResponse {
     Unauthorized(res: Response, error?: any): Response {
         return res.status(HttpStatus.UNAUTHORIZED).json({
             status: HttpStatus.UNAUTHORIZED,
-            message: "Unauthorized",
+            statusMsg: "Unauthorized",
             error: error,
             data: null
         });
@@ -39,7 +40,7 @@ export class HttpResponse {
     Forbidden(res: Response, error?: any): Response {
         return res.status(HttpStatus.FORBIDDEN).json({
             status: HttpStatus.FORBIDDEN,
-            message: "Forbidden",
+            statusMsg: "Forbidden",
             error: error,
             data: null
         });
@@ -48,7 +49,7 @@ export class HttpResponse {
     Error(res: Response, error?: any): Response {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             status: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: "Internal server error",
+            statusMsg: "Internal server error",
             error: error,
             data: null
         });

@@ -9,10 +9,10 @@ export class CustomerService extends BaseService<CustomerEntity> {
     }
 
     async findAllCustomers(): Promise<CustomerEntity[]> {
-        return (await this.execRepository).find();
+        return (await this.execRepository).find({ relations: ["user"] });
     }
     async findCustomerById(id: string): Promise<CustomerEntity | null> {
-        return (await this.execRepository).findOneBy({ id });
+        return (await this.execRepository).findOne({ where: { id }, relations: ["user"] });
     }
     async createCustomer(body: CustomerDto): Promise<CustomerEntity> {
         return (await this.execRepository).save(body);

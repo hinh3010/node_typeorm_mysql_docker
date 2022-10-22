@@ -23,7 +23,9 @@ export class ProductController {
         const { id } = req.params;
         try {
             const data = await this.productService.findProductById(id);
-            return this.httpResponse.Ok(res, data)
+            if (data)
+                return this.httpResponse.Ok(res, data)
+            return this.httpResponse.NotFound(res, "Product not found")
         } catch (e) {
             return this.httpResponse.Error(res, e)
         }

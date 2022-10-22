@@ -13,13 +13,13 @@ export class CustomerRouter extends BaseRouter<CustomerController> {
         this.router.get("/customer/:id", (req, res) =>
             this.controller.getCustomerById(req, res)
         );
-        this.router.post("/createCustomer", (req, res) =>
+        this.router.post("/customer", (req, res) =>
             this.controller.createCustomer(req, res)
         );
-        this.router.put("/updateCustomer/:id", (req, res) =>
+        this.router.put("/customer/:id", (req, res) =>
             this.controller.updateCustomer(req, res)
         );
-        this.router.delete("/deleteCustomer/:id", (req, res) =>
+        this.router.delete("/customer/:id", (req, res) =>
             this.controller.deleteCustomer(req, res)
         );
     }

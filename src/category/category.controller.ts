@@ -22,6 +22,8 @@ export class CategoryController {
         const { id } = req.params;
         try {
             const data = await this.categoryService.findCategoryById(id);
+            if (!data)
+                return this.httpResponse.NotFound(res, "Category not found")
             return this.httpResponse.Ok(res, data)
         } catch (e) {
             return this.httpResponse.Error(res, e)
