@@ -12,40 +12,45 @@ export class HttpResponse {
     Ok(res: Response, data?: any): Response {
         return res.status(HttpStatus.OK).json({
             status: HttpStatus.OK,
-            statusMsg: "Success",
+            message: "Success",
             data: data,
+            error: null
         });
     }
 
-    NotFound(res: Response, data?: any): Response {
+    NotFound(res: Response, error?: any): Response {
         return res.status(HttpStatus.NOT_FOUND).json({
             status: HttpStatus.NOT_FOUND,
-            statusMsg: "Not Found",
-            error: data,
+            message: "Not Found",
+            error: error,
+            data: null
         });
     }
 
-    Unauthorized(res: Response, data?: any): Response {
+    Unauthorized(res: Response, error?: any): Response {
         return res.status(HttpStatus.UNAUTHORIZED).json({
             status: HttpStatus.UNAUTHORIZED,
-            statusMsg: "Unauthorized",
-            error: data,
+            message: "Unauthorized",
+            error: error,
+            data: null
         });
     }
 
-    Forbidden(res: Response, data?: any): Response {
+    Forbidden(res: Response, error?: any): Response {
         return res.status(HttpStatus.FORBIDDEN).json({
             status: HttpStatus.FORBIDDEN,
-            statusMsg: "Forbidden",
-            error: data,
+            message: "Forbidden",
+            error: error,
+            data: null
         });
     }
 
-    Error(res: Response, data?: any): Response {
+    Error(res: Response, error?: any): Response {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             status: HttpStatus.INTERNAL_SERVER_ERROR,
-            statusMsg: "Internal server error",
-            error: data,
+            message: "Internal server error",
+            error: error,
+            data: null
         });
     }
 }
