@@ -1,6 +1,6 @@
 import { DeleteResult, UpdateResult } from "typeorm";
 import { BaseService } from "../shared/services/base.service";
-import { UserEntity } from "./entities/user.entity";
+import { UserEntity } from "./user.entity";
 import { UserDto } from "./user.dto";
 
 export class UserService extends BaseService<UserEntity> {

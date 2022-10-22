@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { HttpResponse } from "../../shared/response/http.response";
-import { UserService } from "../user.service";
+import { HttpResponse } from "../shared/response/http.response";
+import { UserService } from "./user.service";
 
 export class UserController {
 
