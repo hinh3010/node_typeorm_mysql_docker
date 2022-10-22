@@ -12,11 +12,25 @@ export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
     }
 
     async findAllPurchaseProducts(): Promise<PurchaseProductEntity[]> {
-        return (await this.execRepository).find();
+        // return (await this.execRepository).find({ relations: ["product", "purchase"] });
+        return (await this.execRepository).createQueryBuilder('purchases_products')
+            .innerJoinAndSelect("purchases_products.purchase", "purchase")
+            .innerJoinAndSelect("purchase.customer", "customer")
+            // .innerJoinAndSelect("customer.purchases", "purchases")
+            .innerJoinAndSelect("customer.user", "user")
+            .innerJoinAndSelect("purchases_products.product", "product")
+            .innerJoinAndSelect("product.category", "category")
+            .getMany()
     }
 
     async findPurchaseProductById(id: string): Promise<PurchaseProductEntity | null> {
-        return (await this.execRepository).findOneBy({ id });
+        // return (await this.execRepository).findOne({ where: { id }, relations: ["product", "purchase"] });
+        return (await this.execRepository).findOne({
+            where: { id }, relations: {
+                product: true,
+                purchase: true
+            },
+        });
     }
 
     async createPurchaseProduct(body: PurchaseProductDto): Promise<PurchaseProductEntity> {

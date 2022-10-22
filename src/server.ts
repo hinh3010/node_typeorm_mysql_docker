@@ -7,7 +7,9 @@ import { CategoryRouter } from "./category/category.router";
 import { ConfigServer } from "./config/config";
 import { CustomerRouter } from "./customer/customer.router";
 import { ProductRouter } from "./product/product.router";
+import { PurchaseRouter } from "./purchase/routers/purchase.router";
 import { UserRouter } from './user/user.router';
+import { PurchaseProductRouter } from './purchase/routers/purchase-product.router';
 
 class Server extends ConfigServer {
     public app: express.Application = express();
@@ -51,7 +53,9 @@ class Server extends ConfigServer {
             new UserRouter().router,
             new ProductRouter().router,
             new CategoryRouter().router,
-            new CustomerRouter().router
+            new CustomerRouter().router,
+            new PurchaseRouter().router,
+            new PurchaseProductRouter().router
         ]
     }
 
