@@ -12,13 +12,13 @@ export class PurchaseRouter extends BaseRouter<PurchaseController> {
         this.router.get("/purchase/:id", (req, res) =>
             this.controller.getPurchaseById(req, res)
         );
-        this.router.post("/createPurchase", (req, res) =>
+        this.router.post("/purchase", (req, res) =>
             this.controller.createPurchase(req, res)
         );
-        this.router.put("/updatePurchase/:id", (req, res) =>
+        this.router.put("/purchase/:id", (req, res) =>
             this.controller.updatePurchase(req, res)
         );
-        this.router.delete("/deletePurchase/:id", (req, res) =>
+        this.router.delete("/purchase/:id", (req, res) =>
             this.controller.deletePurchase(req, res)
         );
     }

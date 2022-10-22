@@ -3,7 +3,9 @@ import express from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { CategoryRouter } from "./category/category.router";
 import { ConfigServer } from "./config/config";
+import { ProductRouter } from "./product/product.router";
 import { UserRouter } from './user/user.router';
 
 class Server extends ConfigServer {
@@ -45,7 +47,9 @@ class Server extends ConfigServer {
 
     routers(): Array<express.Router> {
         return [
-            new UserRouter().router
+            new UserRouter().router,
+            new ProductRouter().router,
+            new CategoryRouter().router
         ]
     }
 

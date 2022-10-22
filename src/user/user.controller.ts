@@ -21,8 +21,8 @@ export class UserController {
     }
 
     async getUserById(req: Request, res: Response) {
+        const { id } = req.params;
         try {
-            const { id } = req.params;
             const data = await this.userService.findUserById(id)
             return this.httpResponse.Ok(res, data)
         } catch (error) {
@@ -40,15 +40,15 @@ export class UserController {
     }
 
     async deleteUser(req: Request, res: Response) {
+        const { id } = req.params;
         try {
-            const { id } = req.params;
             const isExist = await this.userService.findUserById(id)
             if (!isExist) {
                 return this.httpResponse.NotFound(res, "User not found");
             }
             const isDeleted: DeleteResult = await this.userService.deleteUser(id)
             if (!isDeleted.affected) {
-                return this.httpResponse.NotFound(res, "Something went wrong");
+                return this.httpResponse.Error(res, "Something went wrong");
             }
             return this.httpResponse.Ok(res, isExist)
         } catch (error) {
@@ -57,15 +57,15 @@ export class UserController {
     }
 
     async updateUser(req: Request, res: Response) {
+        const { id } = req.params;
         try {
-            const { id } = req.params;
             const isExist = await this.userService.findUserById(id)
             if (!isExist) {
                 return this.httpResponse.NotFound(res, "User not found");
             }
             const isUpdated: UpdateResult = await this.userService.updateUser(id, req.body)
             if (!isUpdated.affected) {
-                return this.httpResponse.NotFound(res, "Something went wrong");
+                return this.httpResponse.Error(res, "Something went wrong");
             }
             const data = await this.userService.findUserById(id)
             return this.httpResponse.Ok(res, data)

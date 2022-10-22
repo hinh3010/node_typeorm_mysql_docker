@@ -1,51 +1,74 @@
 import { Request, Response } from "express";
+import { HttpResponse } from "../shared/response/http.response";
 import { CategoryService } from "./category.service";
 
 export class CategoryController {
+
     constructor(
-        private readonly categoryService: CategoryService = new CategoryService()
+        private readonly categoryService: CategoryService = new CategoryService(),
+        private readonly httpResponse: HttpResponse = new HttpResponse()
     ) { }
+
     async getCategories(req: Request, res: Response) {
         try {
             const data = await this.categoryService.findAllCategoties();
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.error(e);
+            return this.httpResponse.Error(res, e)
         }
     }
+
     async getCategoryById(req: Request, res: Response) {
         const { id } = req.params;
         try {
             const data = await this.categoryService.findCategoryById(id);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.error(e);
+            return this.httpResponse.Error(res, e)
         }
     }
+
     async createCategory(req: Request, res: Response) {
         try {
             const data = await this.categoryService.createCategory(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.error(e);
+            return this.httpResponse.Error(res, e)
         }
     }
+
     async updateCategory(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            const data = await this.categoryService.updateCategory(id, req.body);
-            res.status(200).json(data);
+            const isExist = await this.categoryService.findCategoryById(id)
+            if (!isExist) {
+                return this.httpResponse.NotFound(res, "Category not found");
+            }
+            const isUpdated = await this.categoryService.updateCategory(id, req.body);
+            if (!isUpdated.affected) {
+                return this.httpResponse.Error(res, "Something went wrong");
+            }
+            const data = await this.categoryService.findCategoryById(id)
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.error(e);
+            return this.httpResponse.Error(res, e)
         }
     }
+
     async deleteCategory(req: Request, res: Response) {
         const { id } = req.params;
         try {
-            const data = await this.categoryService.deleteCategory(id);
-            res.status(200).json(data);
+            const isExist = await this.categoryService.findCategoryById(id)
+            if (!isExist) {
+                return this.httpResponse.NotFound(res, "Category not found");
+            }
+            const isDeleted = await this.categoryService.deleteCategory(id);
+            if (!isDeleted.affected) {
+                return this.httpResponse.Error(res, "Something went wrong");
+            }
+            return this.httpResponse.Ok(res, isExist)
         } catch (e) {
-            console.error(e);
+            return this.httpResponse.Error(res, e)
         }
     }
 }

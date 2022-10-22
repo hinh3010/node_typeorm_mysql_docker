@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { BaseDto } from "../shared/dto/base.dto";
 
 export class UserDto extends BaseDto {
@@ -19,6 +19,9 @@ export class UserDto extends BaseDto {
 
     @IsNotEmpty()
     province!: string;
+
+    @IsOptional()
+    role?: RoleType
 }
 
 export enum RoleType {
