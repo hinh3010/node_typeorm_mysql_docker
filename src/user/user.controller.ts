@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { HttpResponse } from "../shared/response/http.response";
 import { UserService } from "./user.service";
 
@@ -13,12 +14,9 @@ export class UserController {
     async getUsers(req: Request, res: Response) {
         try {
             const data = await this.userService.findAllUser()
-            console.log({ data })
-            // if (data.length <= 0)
-            // return this.httpResponse.NotFound(res, data)
             return this.httpResponse.Ok(res, data)
         } catch (error) {
-            console.log({ error: error })
+            return this.httpResponse.Error(res, error)
         }
     }
 
@@ -26,50 +24,53 @@ export class UserController {
         try {
             const { id } = req.params;
             const data = await this.userService.findUserById(id)
-            return res.json({
-                stutus: 200,
-                data: data
-            })
+            return this.httpResponse.Ok(res, data)
         } catch (error) {
-            console.log({ error: error })
+            return this.httpResponse.Error(res, error)
         }
     }
 
     async createUser(req: Request, res: Response) {
         try {
             const data = await this.userService.createUser(req.body)
-            return res.json({
-                stutus: 200,
-                data: data
-            })
+            return this.httpResponse.Ok(res, data)
         } catch (error) {
-            console.log({ error: error })
+            return this.httpResponse.Error(res, error)
         }
     }
 
     async deleteUser(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const data = await this.userService.deleteUser(id)
-            return res.json({
-                stutus: 200,
-                data: data
-            })
+            const isExist = await this.userService.findUserById(id)
+            if (!isExist) {
+                return this.httpResponse.NotFound(res, "User not found");
+            }
+            const isDeleted: DeleteResult = await this.userService.deleteUser(id)
+            if (!isDeleted.affected) {
+                return this.httpResponse.NotFound(res, "Something went wrong");
+            }
+            return this.httpResponse.Ok(res, isExist)
         } catch (error) {
-            console.log({ error: error })
+            return this.httpResponse.Error(res, error)
         }
     }
 
     async updateUser(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const data = await this.userService.updateUser(id, req.body)
-            return res.json({
-                stutus: 200,
-                data: data
-            })
+            const isExist = await this.userService.findUserById(id)
+            if (!isExist) {
+                return this.httpResponse.NotFound(res, "User not found");
+            }
+            const isUpdated: UpdateResult = await this.userService.updateUser(id, req.body)
+            if (!isUpdated.affected) {
+                return this.httpResponse.NotFound(res, "Something went wrong");
+            }
+            const data = await this.userService.findUserById(id)
+            return this.httpResponse.Ok(res, data)
         } catch (error) {
-            console.log({ error: error })
+            return this.httpResponse.Error(res, error)
         }
     }
 }

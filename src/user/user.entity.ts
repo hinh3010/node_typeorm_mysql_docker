@@ -24,7 +24,7 @@ export class UserEntity extends BaseEntity {
     @Column()
     province !: string
 
-    @Column({ type: 'enum', enum: RoleType, nullable: false })
+    @Column({ type: 'enum', enum: RoleType, nullable: false, default: RoleType.USER })
     role!: RoleType
 
     // quan he 1 - 1 vs table customer

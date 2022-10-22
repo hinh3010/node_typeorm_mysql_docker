@@ -6,7 +6,7 @@ export class UserDto extends BaseDto {
     name!: string;
 
     @IsNotEmpty()
-    lastname!: string;
+    lastName!: string;
 
     @IsNotEmpty()
     email!: string;

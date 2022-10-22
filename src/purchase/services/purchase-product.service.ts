@@ -14,28 +14,28 @@ export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
     async findAllPurchaseProducts(): Promise<PurchaseProductEntity[]> {
         return (await this.execRepository).find();
     }
-    async findPurchaseProductById(
-        id: string
-    ): Promise<PurchaseProductEntity | null> {
+
+    async findPurchaseProductById(id: string): Promise<PurchaseProductEntity | null> {
         return (await this.execRepository).findOneBy({ id });
     }
 
-    async createPurchaseProduct(
-        body: PurchaseProductDto
-    ): Promise<PurchaseProductEntity> {
+    async createPurchaseProduct(body: PurchaseProductDto): Promise<PurchaseProductEntity> {
+        // tạo đơn mua của 1 sản phẩm từ body
         const newPP = (await this.execRepository).create(body);
+
+        // từ id của sản phẩm trong đơn mua tính giá tiền theo số lượng
         const prod = await this.productService.findProductById(newPP.product.id);
         newPP.totalPrice = prod!.price * newPP.quantityProduct;
+
+        // lưu vào db đơn mua của sản phẩm vừa tạo
         return (await this.execRepository).save(newPP);
     }
 
     async deletePurchaseProduct(id: string): Promise<DeleteResult> {
         return (await this.execRepository).delete({ id });
     }
-    async updatePurchaseProduct(
-        id: string,
-        infoUpdate: PurchaseProductDto
-    ): Promise<UpdateResult> {
+
+    async updatePurchaseProduct(id: string, infoUpdate: PurchaseProductDto): Promise<UpdateResult> {
         return (await this.execRepository).update(id, infoUpdate);
     }
 }
