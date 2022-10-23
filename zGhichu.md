@@ -7,6 +7,9 @@
 # buld app with docker (create image)
 - docker build --no-cache --progress=plain -t [name] .
 
+# run app with docker 
+- docker run -it -p 8083:8083 [image_id]
+
 # populate in typeorm
 ```ts
 
