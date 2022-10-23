@@ -10,6 +10,9 @@ import { ProductRouter } from "./product/product.router";
 import { PurchaseRouter } from "./purchase/routers/purchase.router";
 import { UserRouter } from './user/user.router';
 import { PurchaseProductRouter } from './purchase/routers/purchase-product.router';
+import { AuthRouter } from "./auth/auth.router";
+import { LoginStrategy } from "./auth/strategies/login.strategy";
+import { JwtStrategy } from "./auth/strategies/jwt.strategy";
 
 class Server extends ConfigServer {
     public app: express.Application = express();
@@ -21,6 +24,7 @@ class Server extends ConfigServer {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(morgan("dev"));
+        this.passportUse();
         this.dbConnect();
 
         this.app.use(
@@ -38,6 +42,7 @@ class Server extends ConfigServer {
             })
         })
         this.app.use('/v1', this.routers())
+        this.app.use('/', this.routersCommon())
         this.app.use((err: any, req: express.Request, res: express.Response, next: any) => {
             res.json({
                 status: err.status || 500,
@@ -57,6 +62,16 @@ class Server extends ConfigServer {
             new PurchaseRouter().router,
             new PurchaseProductRouter().router
         ]
+    }
+
+    routersCommon(): Array<express.Router> {
+        return [
+            new AuthRouter().router,
+        ]
+    }
+
+    passportUse() {
+        return [new LoginStrategy().use, new JwtStrategy().use];
     }
 
     async dbConnect(): Promise<DataSource | void> {

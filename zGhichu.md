@@ -4,8 +4,12 @@
 # yarn run m:run
 - đẩy lệnh di chuyển lên server
 
+# buld app with docker (create image)
+- docker build --no-cache --progress=plain -t [name] .
+
 # populate in typeorm
 ```ts
+
 
 import { DeleteResult, UpdateResult } from "typeorm";
 import { ProductService } from "../../product/product.service";
