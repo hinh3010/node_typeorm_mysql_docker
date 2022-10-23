@@ -12,7 +12,9 @@ export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
     }
 
     async findAllPurchaseProducts(): Promise<PurchaseProductEntity[]> {
+        // popilate c1
         // return (await this.execRepository).find({ relations: ["product", "purchase"] });
+        // popilate c2
         return (await this.execRepository).createQueryBuilder('purchases_products')
             .innerJoinAndSelect("purchases_products.purchase", "purchase")
             .innerJoinAndSelect("purchase.customer", "customer")
@@ -24,12 +26,31 @@ export class PurchaseProductService extends BaseService<PurchaseProductEntity> {
     }
 
     async findPurchaseProductById(id: string): Promise<PurchaseProductEntity | null> {
-        // return (await this.execRepository).findOne({ where: { id }, relations: ["product", "purchase"] });
+        // return (await this.execRepository).findOne({
+        //     where: { id }, relations: [
+        //         "product", "purchase",
+        //         "product.category", "purchase.customer"
+        //     ]
+        // });
         return (await this.execRepository).findOne({
-            where: { id }, relations: {
-                product: true,
-                purchase: true
-            },
+            where: { id },
+            // popilate c2
+            //  relations: {
+            //     product: true,
+            //     purchase: true
+            // },
+            // popilate c3
+            join: {
+                alias: "purchases_products",
+                leftJoinAndSelect: {
+                    "product": "purchases_products.product",
+                    "category": "product.category",
+
+                    "purchase": "purchases_products.purchase",
+                    "customer": "purchase.customer",
+                    "user": "customer.user"
+                }
+            }
         });
     }
 
