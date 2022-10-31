@@ -1,16 +1,12 @@
-version: "3.1"
-
+version: "3.7"
 services:
-    xh_db:
-        image: mysql:5.7
-        volumes:
-            - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-        command: --init-file /docker-entrypoint-initdb.d/init.sql
-        ports:
-            - "3312:3306"
+    db:
+        image: postgres
         environment:
-            MYSQL_DATABASE: xh_db
-            MYSQL_ROOT_USER: uxh
-            MYSQL_USER: uxh
-            MYSQL_ROOT_PASSWORD: hellocacbantre
-            MYSQL_PASSWORD: hellocacbantre
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: xh_db
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        ports:
+            - "2022:5432"

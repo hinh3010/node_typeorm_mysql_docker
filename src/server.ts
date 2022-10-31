@@ -1,18 +1,11 @@
 import cors from "cors";
-import express from "express";
+import express, { Router } from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { CategoryRouter } from "./category/category.router";
+import { routersV1 } from "./apis/v1/index.routers";
 import { ConfigServer } from "./config/config";
-import { CustomerRouter } from "./customer/customer.router";
-import { ProductRouter } from "./product/product.router";
-import { PurchaseRouter } from "./purchase/routers/purchase.router";
-import { UserRouter } from './user/user.router';
-import { PurchaseProductRouter } from './purchase/routers/purchase-product.router';
-import { AuthRouter } from "./auth/auth.router";
-import { LoginStrategy } from "./auth/strategies/login.strategy";
-import { JwtStrategy } from "./auth/strategies/jwt.strategy";
+
 
 class Server extends ConfigServer {
     public app: express.Application = express();
@@ -24,7 +17,6 @@ class Server extends ConfigServer {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(morgan("dev"));
-        this.passportUse();
         this.dbConnect();
 
         this.app.use(
@@ -36,13 +28,13 @@ class Server extends ConfigServer {
         );
 
         this.app.get('/', (req: express.Request, res: express.Response) => {
-            // throw new Error("Not implemented");
             res.json({
                 message: 'hello three'
             })
         })
+
         this.app.use('/v1', this.routers())
-        this.app.use('/', this.routersCommon())
+
         this.app.use((err: any, req: express.Request, res: express.Response, next: any) => {
             res.json({
                 status: err.status || 500,
@@ -53,26 +45,10 @@ class Server extends ConfigServer {
         this.listen();
     }
 
-    routers(): Array<express.Router> {
-        return [
-            new UserRouter().router,
-            new ProductRouter().router,
-            new CategoryRouter().router,
-            new CustomerRouter().router,
-            new PurchaseRouter().router,
-            new PurchaseProductRouter().router
-        ]
+    routers(): Router {
+        return routersV1
     }
 
-    routersCommon(): Array<express.Router> {
-        return [
-            new AuthRouter().router,
-        ]
-    }
-
-    passportUse() {
-        return [new LoginStrategy().use, new JwtStrategy().use];
-    }
 
     async dbConnect(): Promise<DataSource | void> {
         return this.initConnect

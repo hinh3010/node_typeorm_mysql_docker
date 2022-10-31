@@ -1,4 +1,4 @@
-# yarn run m:gen src/migration/[name]
+# yarn run m:gen src/migrations/[name]
 - tạo 1 lệnh di cư khi thay đổi các filed trong model || entity
 
 # yarn run m:run
@@ -9,6 +9,11 @@
 
 # run app with docker 
 - docker run -it -p 8083:8083 [image_id]
+
+# upload  ("https://lazypandatech.com/blog/NodeJS/28/How-to-upload-a-file-using-TypeScript-with-Node-and-Express/")
+npm install multer @types/multer --save
+npm install multer-s3 @types/multer-s3 --save
+npm install aws-sdk --save
 
 # populate in typeorm
 ```ts

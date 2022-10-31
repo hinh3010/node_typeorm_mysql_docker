@@ -6,7 +6,7 @@ export abstract class ConfigServer {
 
     constructor() {
         const nodeNameEnv = this.createPathEnv(this.nodeEnv);
-        console.log({ nodeNameEnv })
+        // console.log({ nodeNameEnv })
         dotenv.config({
             path: nodeNameEnv,
         });
@@ -14,12 +14,12 @@ export abstract class ConfigServer {
 
     // env
     public getEnvironment(k: string): string | undefined {
-        console.log({ getEnvironment: k, value: process.env[k] });
+        // console.log({ getEnvironment: k, value: process.env[k] });
         return process.env[k];
     }
 
     public getNumberEnv(k: string): number {
-        console.log({ getNumberEnv: k, value: this.getEnvironment(k) });
+        // console.log({ getNumberEnv: k, value: this.getEnvironment(k) });
         return Number(this.getEnvironment(k));
     }
 
@@ -34,7 +34,7 @@ export abstract class ConfigServer {
             const stringToArray = path.split(".");
             arrEnv.unshift(...stringToArray);
         }
-        console.log({ arrEnv });
+        // console.log({ arrEnv });
         return "." + arrEnv.join(".");
     }
 
